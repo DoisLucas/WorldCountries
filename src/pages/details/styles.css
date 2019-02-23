@@ -1,0 +1,22 @@
+.details{
+    max-width: 700px;
+    margin: 20px auto 0px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.details h1{
+    font-size: 32px;
+}
+
+.details p{
+    color: #666;
+    line-height: 24px;
+    margin-top: 5px;
+}
+
+.details p a {
+    color: #069;
+}
