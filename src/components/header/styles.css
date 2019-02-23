@@ -14,10 +14,6 @@
     font-weight: bold;
 }
 
-a{
+.header a{
     text-decoration: none !important;
-}
-
-.wrap{
-    margin: 15px;
 }

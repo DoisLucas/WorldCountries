@@ -4,7 +4,11 @@
     padding: 0 20px;
 }
 
-.country-list article {
+.botoes{
+    margin-bottom: 10px;
+}
+
+article {
     background: #ffffff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -12,14 +16,14 @@
     margin-bottom: 20px;
 }
 
-.country-list article p {
+p {
     font-size: 16px;
     color: #999;
     margin-top: 5px;
     line-height: 24px;
 }
 
-.country-list article a {
+a {
     height: 42px;
     border-radius: 5px;
     border: 2px solid #0049B4;
@@ -35,7 +39,12 @@
     transition: all 0.2s;
 }
 
-.country-list article a:hover{
+.active{
+    background: #0049B4;
+    color: #fff;
+}
+
+a:hover{
     background: #0049B4;
     color: #fff;
 }
