@@ -11,6 +11,12 @@
     font-size: 32px;
 }
 
+.details img{
+    float: right;
+    border-radius: 5px;
+    width: 30%;
+}
+
 .details p{
     color: #666;
     line-height: 24px;

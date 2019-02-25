@@ -9,60 +9,74 @@ export default class Main extends Component {
 
     state = {
         countries: [],
-        continentes: ['África', 'América', 'Ásia', 'Europa', 'Oceania'],
+        continentes: [],
         loading: true,
-        escolhido: 'África'
+        escolhido: '',
     }
 
     componentDidMount() {
+        this.loadContinentes();
         this.loadCountries();
     }
 
-    loadCountries = async () => {
-        const response = await api.get('/continentes/1/paises');
+    loadContinentes = async () => {
+        const response = await api.get('/continentes');
+        this.setState({ continentes: response.data });
+        this.setState({ escolhido: this.state.continentes[0].nome });
+    }
+
+    loadCountries = async (id = 1) => {
+
+        this.setState({ loading: true });
+        const response = await api.get(`/continentes/${id}/paises`);
         this.setState({ loading: false });
-        this.setState({ countries: response.data });
+        this.setState({ countries: response.data.sort((a, b) => a.nome.localeCompare(b.nome)) });
+
+    }
+
+    changeBycontinente = async (cont) => {
+        this.setState({ escolhido: cont.nome });
+        this.loadCountries(cont.id);
     }
 
     render() {
 
+
         const { countries, loading, continentes, escolhido } = this.state
 
-        if (loading) {
-            return <Loading />
-        } else {
-            return (
-                <div>
-                    <div className="country-list">
+        return (
+            <div className="country-list">
 
-                        <div className="botoes">
+                <div className="botoes">
 
-                            {continentes.map(value => {
+                    {continentes.map(continente => {
 
-                                //Por onclick aqui
-                                if (value === escolhido) {
-                                    return <a href="#" className="active">{value}</a>
-                                } else {
-                                    return <a href="#">{value}</a>
-                                }
+                        if (continente.nome === escolhido) {
+                            // eslint-disable-next-line
+                            return <a key={continente.id} onClick={() => this.changeBycontinente(continente)} href="#" className="active">{continente.nome}</a>
+                        } else {
+                            // eslint-disable-next-line
+                            return <a key={continente.id} onClick={() => this.changeBycontinente(continente)} href="#"> {continente.nome}</a>
+                        }
+                    })}
 
-                            })}
-
-                        </div>
-
-                        {countries.map(contry => (
-                            <article key={contry.id}>
-                                <strong>{contry.nome}</strong>
-                                <p>{contry.capital}</p>
-                                <p>{contry.populacao}</p>
-                                <Link to={`/details/${contry.nome}`}>Detalhes</Link>
-                            </article>
-                        ))}
-                        
-                    </div>
                 </div>
 
-            )
-        }
+                {/* Op Ternario */}
+                
+                {loading ? <Loading /> : <div>
+                    {countries.map(contry => (
+                        <article key={contry.id}>
+                            <strong>{contry.nome}</strong>
+                            <p>Capital: {contry.capital}</p>
+                            <p>População: {contry.populacao}</p>
+                            <Link to={`/details/${contry.nome}`}>Detalhes</Link>
+                        </article>
+                    ))} </div>  }
+
+            </div>
+
+        );
+
     }
 }

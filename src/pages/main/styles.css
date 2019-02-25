@@ -19,8 +19,10 @@ article {
 p {
     font-size: 16px;
     color: #999;
-    margin-top: 5px;
     line-height: 24px;
+    font-weight: bold;
+    margin: 0;
+    
 }
 
 a {
@@ -42,6 +44,13 @@ a {
 .active{
     background: #0049B4;
     color: #fff;
+}
+
+.botoes{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 0.2em;
 }
 
 a:hover{

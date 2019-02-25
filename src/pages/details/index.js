@@ -9,7 +9,8 @@ export default class Detail extends Component {
     state = {
         contry: {},
         teste: '',
-        loading: true
+        loading: true,
+        flag: 'http://evoleotech.com/wp-content/uploads/2014/07/dummy.jpg'
     };
 
     async componentDidMount() {
@@ -17,12 +18,19 @@ export default class Detail extends Component {
         //Pegando parametro da URL
         const { name } = this.props.match.params;
         const response = await api.get(`/paises?nome=${name}`)
-        this.setState({ teste: name, loading: false, contry: response.data[0] });
+        this.setState({ teste: name, contry: response.data[0] });
+        this.getFlag();
+        this.setState({ loading: false})
+    }
+
+    getFlag = () => {
+        //const { contry } = this.state;
+        //this.setState({ flag: `http://flags.fmcdn.net/data/flags/w580/${contry.nome}.png`})
     }
 
     render() {
 
-        const { contry, loading } = this.state;
+        const { contry, loading,flag } = this.state;
 
         if (loading) {
             return <Loading />
@@ -30,14 +38,15 @@ export default class Detail extends Component {
             return (
                 <div className="wrap">
                     <div className="details">
+                        <img src={flag} alt="bandeira"></img>
                         <h1>{contry.nome}</h1>
-                        <p>{contry.capital}</p>
-                        <p>{contry.populacao}</p>
-                        <p>{contry.area}</p>
-                        <p>{contry.governo}</p>
-                        <p>{contry.linguas}</p>
-                        <p>{contry.lema}</p>
-                        <p>{contry.hino}</p>
+                        <p>Capital: {contry.capital}</p>
+                        <p>População: {contry.populacao}</p>
+                        <p>Área: {contry.area}</p>
+                        <p>Governo: {contry.governo}</p>
+                        <p>Linguas: {contry.linguas}</p>
+                        <p>Lema: {contry.lema}</p>
+                        <p>Hino: {contry.hino}</p>
                     </div>
                 </div>
             )
