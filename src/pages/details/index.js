@@ -8,9 +8,8 @@ export default class Detail extends Component {
 
     state = {
         contry: {},
-        teste: '',
         loading: true,
-        flag: 'http://evoleotech.com/wp-content/uploads/2014/07/dummy.jpg'
+        flag: ''
     };
 
     async componentDidMount() {
@@ -18,19 +17,29 @@ export default class Detail extends Component {
         //Pegando parametro da URL
         const { name } = this.props.match.params;
         const response = await api.get(`/paises?nome=${name}`)
-        this.setState({ teste: name, contry: response.data[0] });
+        this.setState({ contry: response.data[0] });
         this.getFlag();
-        this.setState({ loading: false})
+        this.setState({ loading: false })
+    }
+
+    handleNome = (nome) => {
+        return nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g, "_");
     }
 
     getFlag = () => {
-        //const { contry } = this.state;
-        //this.setState({ flag: `http://flags.fmcdn.net/data/flags/w580/${contry.nome}.png`})
+        const { contry } = this.state;
+        var nome_tratado = this.handleNome(contry.nome);
+        this.setState({ flag: `https://aimore.net/band/${nome_tratado}.jpg` })
+
+    }
+
+    erroImagem = (image) => {
+        this.setState({ flag: 'http://evoleotech.com/wp-content/uploads/2014/07/dummy.jpg' })
     }
 
     render() {
 
-        const { contry, loading,flag } = this.state;
+        const { contry, loading, flag } = this.state;
 
         if (loading) {
             return <Loading />
@@ -38,7 +47,7 @@ export default class Detail extends Component {
             return (
                 <div className="wrap">
                     <div className="details">
-                        <img src={flag} alt="bandeira"></img>
+                        <img src={flag} onError={ () => { this.erroImagem(this) }} alt="Bandeira"></img>
                         <h1>{contry.nome}</h1>
                         <p>Capital: {contry.capital}</p>
                         <p>População: {contry.populacao}</p>
